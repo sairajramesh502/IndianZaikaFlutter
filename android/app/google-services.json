@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "969855738399",
+    "project_id": "indianzaikaflutter-95dfa",
+    "storage_bucket": "indianzaikaflutter-95dfa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969855738399:android:29a1378d2d425b1d052b2a",
+        "android_client_info": {
+          "package_name": "com.indianzaika.indian_zaika"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "969855738399-jca5grpvu9qqpb8d7gpe537qmdqmfueb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgVdhyf1ytw78tuOtzoqABlu5EhbYr3e0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "969855738399-jca5grpvu9qqpb8d7gpe537qmdqmfueb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

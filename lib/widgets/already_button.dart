@@ -27,12 +27,12 @@ class _AlreadyButtonState extends State<AlreadyButton> {
         child: RichText(
           text: TextSpan(
             text: widget.firstText,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 18, fontWeight: FontWeight.w600, color: Colors.white),
             children: <TextSpan>[
               TextSpan(
                 text: widget.secondText,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: kAccentColor,

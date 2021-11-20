@@ -1,9 +1,14 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
+import 'package:indian_zaika/providers/auth_provider.dart';
+import 'package:indian_zaika/screens/home_screen.dart';
 import 'package:indian_zaika/screens/login_screen.dart';
 import 'package:indian_zaika/widgets/already_button.dart';
 import 'package:indian_zaika/widgets/button.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String id = 'register-screen';
@@ -25,6 +30,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _auth = Provider.of<AuthenticationHelper>(context);
+
     //Scaffold Message
 
     void scaffoldMessage(String message) {
@@ -245,7 +252,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       scaffoldMessage(
                           'Oh No! The Email is badly Formatted Enter a Valid Email');
                     } else {
-                      scaffoldMessage('Validation Done');
+                      _auth
+                          .signUp(
+                              email: _EmailController.text,
+                              password: _PasswordController.text,
+                              mobile: _MobileController.text,
+                              firstname: _NameController.text.split(' ')[0],
+                              lastname: _NameController.text.split(' ')[1],
+                              fullname: _NameController.text)
+                          .then((result) {
+                        if (result == null) {
+                          Navigator.pushReplacementNamed(
+                              context, HomeScreen.id);
+                        } else {
+                          scaffoldMessage(result);
+                        }
+                      });
                     }
                   },
                   buttonText: 'Register'),

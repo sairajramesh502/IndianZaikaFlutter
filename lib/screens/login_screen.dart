@@ -1,10 +1,16 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe, non_constant_identifier_names, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:indian_zaika/constants/constants.dart';
+import 'package:indian_zaika/providers/auth_provider.dart';
+import 'package:indian_zaika/screens/forgot_password.dart';
+import 'package:indian_zaika/screens/home_screen.dart';
 import 'package:indian_zaika/screens/register_screen.dart';
 import 'package:indian_zaika/widgets/already_button.dart';
 import 'package:indian_zaika/widgets/button.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login-screen';
@@ -20,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isVisible = false;
   @override
   Widget build(BuildContext context) {
+    final _loginAuth = Provider.of<AuthenticationHelper>(context);
+
     //Scaffold Message
 
     void scaffoldMessage(String message) {
@@ -238,8 +246,28 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
 
+            //Forgot Password
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 35),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, ForgotPassword.id);
+                    },
+                    child: const Text(
+                      'Forgot Password?',
+                      style: kHintText,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
             //Space
-            SizedBox(height: screenWidth / 8),
+            SizedBox(height: 10),
 
             //Login Button
             Padding(
@@ -258,7 +286,18 @@ class _LoginScreenState extends State<LoginScreen> {
                       scaffoldMessage(
                           'Oh No! That might be a Weak Password kindly Enter a Password with Altleast 7 characters');
                     } else {
-                      scaffoldMessage('Validation Done');
+                      _loginAuth
+                          .signIn(
+                              email: _EmailController.text,
+                              password: _PasswordController.text)
+                          .then((result) {
+                        if (result == null) {
+                          Navigator.pushReplacementNamed(
+                              context, HomeScreen.id);
+                        } else {
+                          scaffoldMessage(result);
+                        }
+                      });
                     }
                   },
                   buttonText: 'Login'),

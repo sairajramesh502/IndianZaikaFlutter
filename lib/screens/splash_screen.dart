@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:indian_zaika/screens/home_screen.dart';
 import 'package:indian_zaika/screens/onboarding_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String id = 'splasn-screen';
@@ -12,11 +14,18 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   void initState() {
     Timer(
       const Duration(seconds: 2),
-      () => Navigator.pushReplacementNamed(context, OnboardingScreen.id),
+      () {
+        if (_auth.currentUser != null) {
+          Navigator.pushReplacementNamed(context, HomeScreen.id);
+        } else {
+          Navigator.pushReplacementNamed(context, OnboardingScreen.id);
+        }
+      },
     );
     super.initState();
   }
