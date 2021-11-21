@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/widgets/button.dart';
@@ -96,7 +98,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           //Emial
                           const Text('E-mail', style: kLabelStyle),
                           //Space
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           TextFormField(
                             controller: _EmailController,
                             style: kHintText,
@@ -106,7 +108,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               hintStyle: kHintText,
                               filled: true,
                               fillColor: kCardBackColor,
-                              contentPadding: EdgeInsets.all(22.0),
+                              contentPadding: const EdgeInsets.all(22.0),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
                                 borderSide: BorderSide.none,

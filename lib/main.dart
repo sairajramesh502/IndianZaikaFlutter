@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
+import 'package:indian_zaika/providers/location_provider.dart';
 import 'package:indian_zaika/screens/forgot_password.dart';
 import 'package:indian_zaika/screens/home_screen.dart';
 import 'package:indian_zaika/screens/login_screen.dart';
+import 'package:indian_zaika/screens/map_screen.dart';
 import 'package:indian_zaika/screens/onboarding_screen.dart';
 import 'package:indian_zaika/screens/register_screen.dart';
+import 'package:indian_zaika/screens/select_location.dart';
 import 'package:indian_zaika/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +21,9 @@ Future main() async {
       providers: [
         ChangeNotifierProvider(
           create: (_) => AuthenticationHelper(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LocationProvider(),
         ),
       ],
       child: const MyApp(),
@@ -44,6 +50,8 @@ class MyApp extends StatelessWidget {
         RegisterScreen.id: (context) => const RegisterScreen(),
         HomeScreen.id: (context) => const HomeScreen(),
         ForgotPassword.id: (context) => const ForgotPassword(),
+        SelectLocation.id: (context) => const SelectLocation(),
+        MapScreen.id: (context) => const MapScreen(),
       },
     );
   }

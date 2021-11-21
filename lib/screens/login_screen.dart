@@ -5,12 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
 import 'package:indian_zaika/screens/forgot_password.dart';
-import 'package:indian_zaika/screens/home_screen.dart';
 import 'package:indian_zaika/screens/register_screen.dart';
+import 'package:indian_zaika/screens/select_location.dart';
 import 'package:indian_zaika/widgets/already_button.dart';
 import 'package:indian_zaika/widgets/button.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String id = 'login-screen';
@@ -270,38 +271,64 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 10),
 
             //Login Button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-              child: ButtonGlobal(
-                  onPressed: () {
-                    if (_EmailController.text == '' ||
-                        _PasswordController.text == '') {
-                      scaffoldMessage(
-                          'You Might have missed an Important Detail. Please enter all the required Details');
-                    } else if (EmailValidator.validate(_EmailController.text) ==
-                        false) {
-                      scaffoldMessage(
-                          'Oh No! The Email is badly Formatted Enter a Valid Email');
-                    } else if (_PasswordController.text.length < 7) {
-                      scaffoldMessage(
-                          'Oh No! That might be a Weak Password kindly Enter a Password with Altleast 7 characters');
-                    } else {
-                      _loginAuth
-                          .signIn(
-                              email: _EmailController.text,
-                              password: _PasswordController.text)
-                          .then((result) {
-                        if (result == null) {
-                          Navigator.pushReplacementNamed(
-                              context, HomeScreen.id);
-                        } else {
-                          scaffoldMessage(result);
-                        }
-                      });
-                    }
-                  },
-                  buttonText: 'Login'),
-            ),
+            _loginAuth.isAuthLoading
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: Shimmer.fromColors(
+                      baseColor: kAccentColor,
+                      highlightColor: kShimmerHighlightBtn,
+                      child: Container(
+                        width: screenWidth,
+                        height: screenWidth / 7,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: ButtonGlobal(
+                        onPressed: () {
+                          setState(() {
+                            _loginAuth.isAuthLoading = true;
+                          });
+                          if (_EmailController.text == '' ||
+                              _PasswordController.text == '') {
+                            scaffoldMessage(
+                                'You Might have missed an Important Detail. Please enter all the required Details');
+                          } else if (EmailValidator.validate(
+                                  _EmailController.text) ==
+                              false) {
+                            scaffoldMessage(
+                                'Oh No! The Email is badly Formatted Enter a Valid Email');
+                          } else if (_PasswordController.text.length < 7) {
+                            scaffoldMessage(
+                                'Oh No! That might be a Weak Password kindly Enter a Password with Altleast 7 characters');
+                          } else {
+                            _loginAuth
+                                .signIn(
+                                    email: _EmailController.text,
+                                    password: _PasswordController.text)
+                                .then((result) {
+                              if (result == null) {
+                                Navigator.pushReplacementNamed(
+                                    context, SelectLocation.id);
+                                setState(() {
+                                  _loginAuth.isAuthLoading = false;
+                                });
+                              } else {
+                                scaffoldMessage(result);
+                                setState(() {
+                                  _loginAuth.isAuthLoading = false;
+                                });
+                              }
+                            });
+                          }
+                        },
+                        buttonText: 'Login'),
+                  ),
 
             //Space
             SizedBox(height: screenWidth / 20),

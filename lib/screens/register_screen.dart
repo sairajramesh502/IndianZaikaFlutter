@@ -3,12 +3,13 @@
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
-import 'package:indian_zaika/screens/home_screen.dart';
 import 'package:indian_zaika/screens/login_screen.dart';
+import 'package:indian_zaika/screens/select_location.dart';
 import 'package:indian_zaika/widgets/already_button.dart';
 import 'package:indian_zaika/widgets/button.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String id = 'register-screen';
@@ -227,51 +228,80 @@ class _RegisterScreenState extends State<RegisterScreen> {
             SizedBox(height: screenWidth / 8),
 
             //Login Button
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 35),
-              child: ButtonGlobal(
-                  onPressed: () {
-                    if (_NameController.text == '' ||
-                        _EmailController.text == '' ||
-                        _MobileController.text == '' ||
-                        _PasswordController.text == '' ||
-                        _CPasswordController.text == '') {
-                      scaffoldMessage(
-                          'You Might have missed an Important Detail. Please enter all the required Details');
-                    } else if (_MobileController.text.length < 10) {
-                      scaffoldMessage(
-                          'You Might have Misentered your Mobile Number. Please Check');
-                    } else if (_PasswordController.text.length < 7) {
-                      scaffoldMessage(
-                          'Oh No! That might be a Weak Password kindly Enter a Password with Altleast 7 characters');
-                    } else if (_PasswordController.text !=
-                        _CPasswordController.text) {
-                      scaffoldMessage('Oh No! The Passwords did not Match');
-                    } else if (EmailValidator.validate(_EmailController.text) ==
-                        false) {
-                      scaffoldMessage(
-                          'Oh No! The Email is badly Formatted Enter a Valid Email');
-                    } else {
-                      _auth
-                          .signUp(
-                              email: _EmailController.text,
-                              password: _PasswordController.text,
-                              mobile: _MobileController.text,
-                              firstname: _NameController.text.split(' ')[0],
-                              lastname: _NameController.text.split(' ')[1],
-                              fullname: _NameController.text)
-                          .then((result) {
-                        if (result == null) {
-                          Navigator.pushReplacementNamed(
-                              context, HomeScreen.id);
-                        } else {
-                          scaffoldMessage(result);
-                        }
-                      });
-                    }
-                  },
-                  buttonText: 'Register'),
-            ),
+            _auth.isAuthLoading
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: Shimmer.fromColors(
+                      baseColor: kAccentColor,
+                      highlightColor: kShimmerHighlightBtn,
+                      child: Container(
+                        width: screenWidth,
+                        height: screenWidth / 7,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: kAccentColor,
+                        ),
+                      ),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 35),
+                    child: ButtonGlobal(
+                        onPressed: () {
+                          setState(() {
+                            _auth.isAuthLoading = true;
+                          });
+                          if (_NameController.text == '' ||
+                              _EmailController.text == '' ||
+                              _MobileController.text == '' ||
+                              _PasswordController.text == '' ||
+                              _CPasswordController.text == '') {
+                            scaffoldMessage(
+                                'You Might have missed an Important Detail. Please enter all the required Details');
+                          } else if (_MobileController.text.length < 10) {
+                            scaffoldMessage(
+                                'You Might have Misentered your Mobile Number. Please Check');
+                          } else if (_PasswordController.text.length < 7) {
+                            scaffoldMessage(
+                                'Oh No! That might be a Weak Password kindly Enter a Password with Altleast 7 characters');
+                          } else if (_PasswordController.text !=
+                              _CPasswordController.text) {
+                            scaffoldMessage(
+                                'Oh No! The Passwords did not Match');
+                          } else if (EmailValidator.validate(
+                                  _EmailController.text) ==
+                              false) {
+                            scaffoldMessage(
+                                'Oh No! The Email is badly Formatted Enter a Valid Email');
+                          } else {
+                            _auth
+                                .signUp(
+                                    email: _EmailController.text,
+                                    password: _PasswordController.text,
+                                    mobile: _MobileController.text,
+                                    firstname:
+                                        _NameController.text.split(' ')[0],
+                                    lastname:
+                                        _NameController.text.split(' ')[1],
+                                    fullname: _NameController.text)
+                                .then((result) {
+                              if (result == null) {
+                                Navigator.pushReplacementNamed(
+                                    context, SelectLocation.id);
+                                setState(() {
+                                  _auth.isAuthLoading = false;
+                                });
+                              } else {
+                                scaffoldMessage(result);
+                                setState(() {
+                                  _auth.isAuthLoading = false;
+                                });
+                              }
+                            });
+                          }
+                        },
+                        buttonText: 'Register'),
+                  ),
 
             //Space
             SizedBox(height: screenWidth / 20),
