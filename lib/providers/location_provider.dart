@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_null_comparison, unnecessary_this, avoid_print
+// ignore_for_file: unnecessary_null_comparison, unnecessary_this, avoid_print, import_of_legacy_library_into_null_safe, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';

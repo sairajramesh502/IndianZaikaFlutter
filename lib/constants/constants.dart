@@ -29,3 +29,9 @@ const kTextStyleHead1 = TextStyle(
     fontSize: 30,
     fontWeight: FontWeight.w700,
     letterSpacing: 2);
+
+const kTextStyleHead2 = TextStyle(
+    color: Colors.white,
+    fontSize: 34,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 2);

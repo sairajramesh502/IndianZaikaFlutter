@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
