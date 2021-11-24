@@ -7,6 +7,7 @@ import 'package:indian_zaika/screens/map_screen.dart';
 import 'package:indian_zaika/widgets/button.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:animate_do/animate_do.dart';
 
 class SelectLocation extends StatefulWidget {
   static const String id = 'selectlocation-screen';
@@ -36,7 +37,7 @@ class _SelectLocationState extends State<SelectLocation> {
         Provider.of<LocationProvider>(context, listen: false);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF272C2F),
+      backgroundColor: kAccentColor,
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
@@ -77,12 +78,15 @@ class _SelectLocationState extends State<SelectLocation> {
                   children: [
                     //Text 1
 
-                    const Text(
-                      'Select Location',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 500),
+                      child: const Text(
+                        'Select Location',
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
 
@@ -90,12 +94,15 @@ class _SelectLocationState extends State<SelectLocation> {
                     const SizedBox(height: 16),
 
                     //Text 2
-                    const Text(
-                      'Select the Location you need your\nfood to be delivered.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 550),
+                      child: const Text(
+                        'Select the Location you need your\nfood to be delivered.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
 
@@ -124,27 +131,30 @@ class _SelectLocationState extends State<SelectLocation> {
                               ),
                             ),
                           )
-                        : ButtonGlobal(
-                            onPressed: () async {
-                              setState(() {
-                                _selLocProvider.loading = true;
-                              });
-                              await _selLocProvider.getCurrentPosition();
-                              if (_selLocProvider.permisionAllowed) {
-                                Navigator.pushReplacementNamed(
-                                    context, MapScreen.id);
-                                setState(() {
-                                  _selLocProvider.loading = false;
-                                });
-                              } else {
-                                scaffoldMessage(
-                                    'Location Permission Not allowed. Kindly Allow Location Permissions');
-                                setState(() {
-                                  _selLocProvider.loading = false;
-                                });
-                              }
-                            },
-                            buttonText: 'Set Location'),
+                        : FadeInUp(
+                            duration: const Duration(milliseconds: 600),
+                            child: ButtonGlobal(
+                                onPressed: () async {
+                                  setState(() {
+                                    _selLocProvider.loading = true;
+                                  });
+                                  await _selLocProvider.getCurrentPosition();
+                                  if (_selLocProvider.permisionAllowed) {
+                                    Navigator.pushReplacementNamed(
+                                        context, MapScreen.id);
+                                    setState(() {
+                                      _selLocProvider.loading = false;
+                                    });
+                                  } else {
+                                    scaffoldMessage(
+                                        'Location Permission Not allowed. Kindly Allow Location Permissions');
+                                    setState(() {
+                                      _selLocProvider.loading = false;
+                                    });
+                                  }
+                                },
+                                buttonText: 'Set Location'),
+                          ),
                   ],
                 ),
               ),

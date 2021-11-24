@@ -125,6 +125,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
+              TextButton(
+                onPressed: () {
+                  _authProv.signOut().then((result) {
+                    if (result == null) {
+                      Navigator.pushReplacementNamed(
+                          context, OnboardingScreen.id);
+                    } else {
+                      scaffoldMessage(result);
+                    }
+                  });
+                },
+                child: const Text('Log Out', style: kHintText),
+              )
             ],
           ),
         ),

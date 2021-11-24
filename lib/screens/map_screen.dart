@@ -9,6 +9,7 @@ import 'package:indian_zaika/widgets/button.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:animate_do/animate_do.dart';
 
 class MapScreen extends StatefulWidget {
   static const String id = 'map-screen';
@@ -58,6 +59,7 @@ class _MapScreenState extends State<MapScreen> {
         child: SafeArea(
           child: Stack(
             children: [
+              //Google Maps
               GoogleMap(
                 initialCameraPosition:
                     CameraPosition(target: currentLocation, zoom: 19),
@@ -87,6 +89,8 @@ class _MapScreenState extends State<MapScreen> {
                   });
                 },
               ),
+
+              //Location Pin
               Center(
                 child: Image.asset(
                   'images/locationPin.gif',
@@ -94,125 +98,138 @@ class _MapScreenState extends State<MapScreen> {
                   height: 70,
                 ),
               ),
+
+              //Overall Bottom Container
               Positioned(
                 bottom: 0.0,
-                child: Container(
-                  width: screenWidth,
-                  height: screenHeight / 3,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(44),
-                      topRight: Radius.circular(44),
+                child: FadeInUp(
+                  duration: Duration(milliseconds: 700),
+                  child: Container(
+                    width: screenWidth,
+                    height: screenHeight / 3,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(44),
+                        topRight: Radius.circular(44),
+                      ),
+                      color: Color(0xFF272C2F),
                     ),
-                    color: Color(0xFF272C2F),
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.only(left: 35, right: 35, top: 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Selected Location',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 35, right: 35, top: 40),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          //Text 1
+                          const Text(
+                            'Selected Location',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        isLoading
-                            ? Shimmer.fromColors(
-                                baseColor: kCardBackColor,
-                                highlightColor: kShimmerHighlight,
-                                child: Container(
-                                  height: 28,
-                                  width: screenWidth / 2.5,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: kCardBackColor,
+                          const SizedBox(
+                            height: 10,
+                          ),
+
+                          //Feature name Text
+                          isLoading
+                              ? Shimmer.fromColors(
+                                  baseColor: kCardBackColor,
+                                  highlightColor: kShimmerHighlight,
+                                  child: Container(
+                                    height: 28,
+                                    width: screenWidth / 2.5,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: kCardBackColor,
+                                    ),
                                   ),
-                                ),
-                              )
-                            : Text(
-                                featureName,
-                                style: const TextStyle(
-                                  color: kAccentColor,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w900,
-                                  letterSpacing: 1.2,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        isLoading
-                            ? Shimmer.fromColors(
-                                baseColor: kCardBackColor,
-                                highlightColor: kShimmerHighlight,
-                                child: Container(
-                                  height: screenWidth / 9.4,
-                                  width: screenWidth / 1.1,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: kCardBackColor,
-                                  ),
-                                ),
-                              )
-                            : Padding(
-                                padding: const EdgeInsets.only(right: 30),
-                                child: Text(
-                                  addressline,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
+                                )
+                              : Text(
+                                  featureName,
                                   style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                        SizedBox(
-                          height: screenWidth / 9,
-                        ),
-                        isLoading
-                            ? Shimmer.fromColors(
-                                baseColor: kAccentColor,
-                                highlightColor: kShimmerHighlightBtn,
-                                child: Container(
-                                  width: screenWidth,
-                                  height: screenWidth / 7,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
                                     color: kAccentColor,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w900,
+                                    letterSpacing: 1.2,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+
+                          //AddressLine Text
+                          isLoading
+                              ? Shimmer.fromColors(
+                                  baseColor: kCardBackColor,
+                                  highlightColor: kShimmerHighlight,
+                                  child: Container(
+                                    height: screenWidth / 9.4,
+                                    width: screenWidth / 1.1,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: kCardBackColor,
+                                    ),
+                                  ),
+                                )
+                              : Padding(
+                                  padding: const EdgeInsets.only(right: 30),
+                                  child: Text(
+                                    addressline,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                    ),
                                   ),
                                 ),
-                              )
-                            : ButtonGlobal(
-                                onPressed: () {
-                                  print('Pressed');
-                                  _mapScreenAuthProvider
-                                      .updateUserLocation(
-                                          longitude:
-                                              _mapScreenProvider.longitude,
-                                          latitude: _mapScreenProvider.latitude,
-                                          address: addressline)
-                                      .then((result) {
-                                    if (result == null) {
-                                      scaffoldMessage(
-                                          'Location set Sucessfully');
-                                      Navigator.pushReplacementNamed(
-                                          context, HomeScreen.id);
-                                    } else {
-                                      scaffoldMessage(result);
-                                    }
-                                  });
-                                },
-                                buttonText: 'Set Location')
-                      ],
+                          SizedBox(
+                            height: screenWidth / 9,
+                          ),
+
+                          //Set Location
+                          isLoading
+                              ? Shimmer.fromColors(
+                                  baseColor: kAccentColor,
+                                  highlightColor: kShimmerHighlightBtn,
+                                  child: Container(
+                                    width: screenWidth,
+                                    height: screenWidth / 7,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: kAccentColor,
+                                    ),
+                                  ),
+                                )
+                              : ButtonGlobal(
+                                  onPressed: () {
+                                    print('Pressed');
+                                    _mapScreenAuthProvider
+                                        .updateUserLocation(
+                                            longitude:
+                                                _mapScreenProvider.longitude,
+                                            latitude:
+                                                _mapScreenProvider.latitude,
+                                            address: addressline)
+                                        .then((result) {
+                                      if (result == null) {
+                                        scaffoldMessage(
+                                            'Location set Sucessfully');
+                                        Navigator.pushReplacementNamed(
+                                            context, HomeScreen.id);
+                                      } else {
+                                        scaffoldMessage(result);
+                                      }
+                                    });
+                                  },
+                                  buttonText: 'Set Location')
+                        ],
+                      ),
                     ),
                   ),
                 ),

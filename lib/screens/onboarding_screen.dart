@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/screens/login_screen.dart';
 import 'package:indian_zaika/widgets/button.dart';
+import 'package:animate_do/animate_do.dart';
 
 class OnboardingScreen extends StatefulWidget {
   static const String id = 'onboarding-screen';
@@ -61,14 +62,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     ];
 
     return Scaffold(
-      backgroundColor: const Color(0xFF272C2F),
+      backgroundColor: Color(0xFFCFAA01),
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           //onboard Image Slider
           SizedBox(
             width: screenWidth,
-            height: screenHeight / 1.01,
+            height: screenHeight,
             child: PageView(
               controller: _controller,
               children: _pages,
@@ -95,12 +96,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   children: [
                     //Text 1
 
-                    const Text(
-                      'Order & Let’s eat',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                    FadeInUp(
+                      duration: Duration(milliseconds: 500),
+                      child: const Text(
+                        'Order & Let’s eat',
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
 
@@ -111,23 +115,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                     //Text 2
 
-                    RichText(
-                      text: const TextSpan(
-                        text: 'Tasty',
-                        style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: ' Food.',
-                            style: TextStyle(
+                    FadeInUp(
+                      duration: Duration(milliseconds: 500),
+                      child: RichText(
+                        text: const TextSpan(
+                          text: 'Tasty',
+                          style: TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.w800,
-                              color: Color(0xFFFFC013),
+                              color: Colors.white),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: ' Food.',
+                              style: TextStyle(
+                                fontSize: 36,
+                                fontWeight: FontWeight.w800,
+                                color: Color(0xFFFFC013),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
 
@@ -137,12 +144,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
 
                     //Text 3
-                    const Text(
-                      'Order Food and get Delivery in the Fastest\nTime in the Town',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        letterSpacing: 1.1,
+                    FadeInUp(
+                      duration: Duration(milliseconds: 700),
+                      child: const Text(
+                        'Order Food and get Delivery in the Fastest\nTime in the Town',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          letterSpacing: 1.1,
+                        ),
                       ),
                     ),
 
@@ -153,12 +163,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
                     //Button
 
-                    ButtonGlobal(
-                        onPressed: () {
-                          Navigator.pushReplacementNamed(
-                              context, LoginScreen.id);
-                        },
-                        buttonText: 'Get Started'),
+                    FadeInUp(
+                      duration: Duration(milliseconds: 900),
+                      child: ButtonGlobal(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, LoginScreen.id);
+                          },
+                          buttonText: 'Get Started'),
+                    ),
                   ],
                 ),
               ),

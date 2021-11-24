@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/widgets/button.dart';
+import 'package:animate_do/animate_do.dart';
 
 class ForgotPassword extends StatefulWidget {
   static const String id = 'forgotPassword-screen';
@@ -56,16 +57,19 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 35, top: 30, right: 35),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     //Text 1
 
-                    const Text(
-                      'Forgot Password',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 500),
+                      child: const Text(
+                        'Forgot Password',
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
 
@@ -75,12 +79,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
 
                     //Text 2
-                    const Text(
-                      'Forgot your Password No Wories we have got you\nenter your valid email below',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 550),
+                      child: const Text(
+                        'Forgot your Password No Wories we have got you\nenter your valid email below',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                        ),
                       ),
                     ),
 
@@ -90,32 +96,35 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     ),
 
                     //Text Input
-                    Form(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          //Emial
-                          const Text('E-mail', style: kLabelStyle),
-                          //Space
-                          const SizedBox(height: 8),
-                          TextFormField(
-                            controller: _EmailController,
-                            style: kHintText,
-                            keyboardType: TextInputType.emailAddress,
-                            decoration: InputDecoration(
-                              hintText: 'Enter Your Email',
-                              hintStyle: kHintText,
-                              filled: true,
-                              fillColor: kCardBackColor,
-                              contentPadding: const EdgeInsets.all(22.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide.none,
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 600),
+                      child: Form(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Emial
+                            const Text('E-mail', style: kLabelStyle),
+                            //Space
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              controller: _EmailController,
+                              style: kHintText,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(
+                                hintText: 'Enter Your Email',
+                                hintStyle: kHintText,
+                                filled: true,
+                                fillColor: kCardBackColor,
+                                contentPadding: const EdgeInsets.all(22.0),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                                  borderSide: BorderSide.none,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
 
@@ -126,8 +135,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
                     //Button
 
-                    ButtonGlobal(
-                        onPressed: () {}, buttonText: 'Reset Password'),
+                    FadeInUp(
+                      duration: const Duration(milliseconds: 650),
+                      child: ButtonGlobal(
+                          onPressed: () {}, buttonText: 'Reset Password'),
+                    ),
                   ],
                 ),
               ),
