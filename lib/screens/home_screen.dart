@@ -2,10 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/components/custome_appbar.dart';
+import 'package:indian_zaika/components/image_slider.dart';
 import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
+import 'package:indian_zaika/screens/map_screen.dart';
 import 'package:indian_zaika/screens/onboarding_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String id = 'home-screen';
@@ -39,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const CustomeAppBar(),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,6 +128,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
+
+              //Image Slider
+              const BannerSlider(),
+
               TextButton(
                 onPressed: () {
                   _authProv.signOut().then((result) {

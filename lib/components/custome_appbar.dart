@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
+import 'package:indian_zaika/screens/map_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomeAppBar extends StatefulWidget {
   const CustomeAppBar({Key? key}) : super(key: key);
@@ -9,6 +11,24 @@ class CustomeAppBar extends StatefulWidget {
 }
 
 class _CustomeAppBarState extends State<CustomeAppBar> {
+  String? _featureName = '';
+  String? _address = '';
+  @override
+  void initState() {
+    getPrefs();
+    super.initState();
+  }
+
+  getPrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? featureName = prefs.getString('featureName');
+    String? address = prefs.getString('address');
+    setState(() {
+      _featureName = featureName;
+      _address = address;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -18,13 +38,15 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
       automaticallyImplyLeading: false,
       titleSpacing: 0,
       flexibleSpace: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, MapScreen.id);
+              },
               child: Container(
                 height: screenWidth / 5,
                 width: screenWidth / 2.1,
@@ -37,24 +59,24 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Text(
-                        '8',
+                        _featureName!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: kAccentColor,
                             fontSize: 20,
                             fontWeight: FontWeight.w900),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 6,
                       ),
                       Text(
-                        'Addressjjjjjjjjjjjjjjjjjjjjjjjjjjjjhhhhhhhhhhhhhhhhhhhhh',
+                        _address!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
                         ),

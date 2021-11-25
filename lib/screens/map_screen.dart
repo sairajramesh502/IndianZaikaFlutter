@@ -25,6 +25,7 @@ class _MapScreenState extends State<MapScreen> {
   String featureName = '';
   String addressline = '';
   bool isLoading = false;
+  bool isButtonPressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class _MapScreenState extends State<MapScreen> {
               Positioned(
                 bottom: 0.0,
                 child: FadeInUp(
-                  duration: Duration(milliseconds: 700),
+                  duration: const Duration(milliseconds: 700),
                   child: Container(
                     width: screenWidth,
                     height: screenHeight / 3,
@@ -193,7 +194,7 @@ class _MapScreenState extends State<MapScreen> {
                           ),
 
                           //Set Location
-                          isLoading
+                          isLoading || isButtonPressed
                               ? Shimmer.fromColors(
                                   baseColor: kAccentColor,
                                   highlightColor: kShimmerHighlightBtn,
@@ -208,7 +209,12 @@ class _MapScreenState extends State<MapScreen> {
                                 )
                               : ButtonGlobal(
                                   onPressed: () {
+                                    _mapScreenProvider.savePrefs();
                                     print('Pressed');
+                                    setState(() {
+                                      isButtonPressed = true;
+                                    });
+
                                     _mapScreenAuthProvider
                                         .updateUserLocation(
                                             longitude:
@@ -222,8 +228,14 @@ class _MapScreenState extends State<MapScreen> {
                                             'Location set Sucessfully');
                                         Navigator.pushReplacementNamed(
                                             context, HomeScreen.id);
+                                        setState(() {
+                                          isButtonPressed = false;
+                                        });
                                       } else {
                                         scaffoldMessage(result);
+                                        setState(() {
+                                          isButtonPressed = false;
+                                        });
                                       }
                                     });
                                   },

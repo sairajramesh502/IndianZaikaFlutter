@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LocationProvider with ChangeNotifier {
   double latitude = 0.0;
@@ -41,5 +42,13 @@ class LocationProvider with ChangeNotifier {
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     this.selectedAddress = addresses.first;
     print('${selectedAddress.featureName} : ${selectedAddress.addressLine}');
+  }
+
+  Future<void> savePrefs() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setDouble('lat', this.latitude);
+    prefs.setDouble('lng', this.longitude);
+    prefs.setString('address', this.selectedAddress.addressLine);
+    prefs.setString('featureName', this.selectedAddress.featureName);
   }
 }
