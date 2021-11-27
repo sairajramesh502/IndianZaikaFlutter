@@ -132,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
               //Image Slider
               const BannerSlider(),
               Text('Test'),
+              Text('Test'),
 
               TextButton(
                 onPressed: () {
