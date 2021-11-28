@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
+import 'package:indian_zaika/providers/auth_provider.dart';
 import 'package:indian_zaika/screens/map_screen.dart';
+import 'package:indian_zaika/screens/onboarding_screen.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomeAppBar extends StatefulWidget {
@@ -31,14 +34,28 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    //Scaffold Message
+
+    void scaffoldMessage(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: kAccentColor,
+        content: Text(message, style: const TextStyle(color: kPrimaryColor)),
+      ));
+    }
+
+    final _authProv = Provider.of<AuthenticationHelper>(context);
     double screenWidth = MediaQuery.of(context).size.width;
-    return AppBar(
+    return SliverAppBar(
+      snap: false,
+      pinned: false,
+      floating: false,
+      expandedHeight: screenWidth / 2.5,
       backgroundColor: Colors.transparent,
       elevation: 0,
       automaticallyImplyLeading: false,
       titleSpacing: 0,
       flexibleSpace: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12),
+        padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 2),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,38 +73,55 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        _featureName!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            color: kAccentColor,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900),
-                      ),
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        _address!,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
+                  child: Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            _featureName!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: kAccentColor,
+                                fontSize: screenWidth / 20,
+                                fontWeight: FontWeight.w900),
+                          ),
                         ),
-                      ),
-                    ],
+                        const Flexible(
+                          child: SizedBox(
+                            height: 6,
+                          ),
+                        ),
+                        Flexible(
+                          child: Text(
+                            _address!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenWidth / 30,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                _authProv.signOut().then((result) {
+                  if (result == null) {
+                    Navigator.pushReplacementNamed(
+                        context, OnboardingScreen.id);
+                  } else {
+                    scaffoldMessage(result);
+                  }
+                });
+              },
               child: Image.asset(
                 'images/LogoProfile.png',
                 height: screenWidth / 5,

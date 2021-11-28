@@ -1,9 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:indian_zaika/constants/constants.dart';
+import 'package:indian_zaika/providers/auth_provider.dart';
+import 'package:indian_zaika/screens/login_screen.dart';
 import 'package:indian_zaika/widgets/button.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:provider/provider.dart';
 
 class ForgotPassword extends StatefulWidget {
   static const String id = 'forgotPassword-screen';
@@ -17,6 +21,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   final _EmailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    //Scaffold Message
+
+    void scaffoldMessage(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: kAccentColor,
+        content: Text(message, style: const TextStyle(color: kPrimaryColor)),
+      ));
+    }
+
+    final _forgotPasswordProvider = Provider.of<AuthenticationHelper>(context);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -138,7 +152,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     FadeInUp(
                       duration: const Duration(milliseconds: 650),
                       child: ButtonGlobal(
-                          onPressed: () {}, buttonText: 'Reset Password'),
+                          onPressed: () {
+                            if (_EmailController.text == '') {
+                              scaffoldMessage(
+                                  'You Might have missed an Important Detail. Please enter all the required Details');
+                            } else if (EmailValidator.validate(
+                                    _EmailController.text) ==
+                                false) {
+                              scaffoldMessage(
+                                  'Oh No! The Email is badly Formatted Enter a Valid Email');
+                            } else {
+                              _forgotPasswordProvider
+                                  .resetPassword(email: _EmailController.text)
+                                  .then((result) {
+                                if (result == null) {
+                                  scaffoldMessage(
+                                      'We have sent you a Email in your Entered Email id to reset your Password. Kindly Check.');
+                                  Navigator.pushReplacementNamed(
+                                      context, LoginScreen.id);
+                                } else {
+                                  scaffoldMessage(result);
+                                }
+                              });
+                            }
+                          },
+                          buttonText: 'Reset Password'),
                     ),
                   ],
                 ),

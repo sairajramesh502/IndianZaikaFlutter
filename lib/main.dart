@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
 import 'package:indian_zaika/providers/location_provider.dart';
+import 'package:indian_zaika/providers/store_provider.dart';
 import 'package:indian_zaika/screens/forgot_password.dart';
 import 'package:indian_zaika/screens/home_screen.dart';
 import 'package:indian_zaika/screens/login_screen.dart';
+import 'package:indian_zaika/screens/main_screen.dart';
 import 'package:indian_zaika/screens/map_screen.dart';
 import 'package:indian_zaika/screens/onboarding_screen.dart';
 import 'package:indian_zaika/screens/register_screen.dart';
@@ -25,6 +27,9 @@ Future main() async {
         ChangeNotifierProvider(
           create: (_) => LocationProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => StoreProvider(),
+        ),
       ],
       child: const MyApp(),
     ),
@@ -38,6 +43,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
@@ -52,6 +61,7 @@ class MyApp extends StatelessWidget {
         ForgotPassword.id: (context) => const ForgotPassword(),
         SelectLocation.id: (context) => const SelectLocation(),
         MapScreen.id: (context) => const MapScreen(),
+        MainScreen.id: (context) => const MainScreen(),
       },
     );
   }

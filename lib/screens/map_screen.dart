@@ -5,6 +5,7 @@ import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
 import 'package:indian_zaika/providers/location_provider.dart';
 import 'package:indian_zaika/screens/home_screen.dart';
+import 'package:indian_zaika/screens/main_screen.dart';
 import 'package:indian_zaika/widgets/button.dart';
 import 'package:provider/provider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -227,7 +228,7 @@ class _MapScreenState extends State<MapScreen> {
                                         scaffoldMessage(
                                             'Location set Sucessfully');
                                         Navigator.pushReplacementNamed(
-                                            context, HomeScreen.id);
+                                            context, MainScreen.id);
                                         setState(() {
                                           isButtonPressed = false;
                                         });

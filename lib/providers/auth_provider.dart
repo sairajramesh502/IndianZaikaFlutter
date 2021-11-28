@@ -52,6 +52,16 @@ class AuthenticationHelper with ChangeNotifier {
     }
   }
 
+  Future resetPassword({required String email}) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      this.isAuthLoading = false;
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+
   //SIGN OUT METHOD
   Future signOut() async {
     await _auth.signOut();
