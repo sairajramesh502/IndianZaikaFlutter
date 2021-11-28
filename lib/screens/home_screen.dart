@@ -9,6 +9,7 @@ import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
 import 'package:indian_zaika/screens/map_screen.dart';
 import 'package:indian_zaika/screens/onboarding_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -123,16 +124,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         width: 20,
                       ),
-                      Container(
-                        height: screenWidth / 6,
-                        width: screenWidth / 6,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: kAccentColor,
-                        ),
-                        child: Center(
-                          child: Image.asset('images/filter.png',
-                              width: 30, height: 30),
+                      InkWell(
+                        onTap: () {
+                          pushNewScreenWithRouteSettings(
+                            context,
+                            settings: RouteSettings(name: MapScreen.id),
+                            screen: MapScreen(),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                        child: Container(
+                          height: screenWidth / 6,
+                          width: screenWidth / 6,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: kAccentColor,
+                          ),
+                          child: Center(
+                            child: Image.asset('images/filter.png',
+                                width: 30, height: 30),
+                          ),
                         ),
                       ),
                     ],

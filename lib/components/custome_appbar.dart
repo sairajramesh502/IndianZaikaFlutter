@@ -3,6 +3,7 @@ import 'package:indian_zaika/constants/constants.dart';
 import 'package:indian_zaika/providers/auth_provider.dart';
 import 'package:indian_zaika/screens/map_screen.dart';
 import 'package:indian_zaika/screens/onboarding_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,7 +63,13 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
           children: [
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, MapScreen.id);
+                pushNewScreenWithRouteSettings(
+                  context,
+                  settings: RouteSettings(name: MapScreen.id),
+                  screen: MapScreen(),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
               },
               child: Container(
                 height: screenWidth / 5,
@@ -115,8 +122,14 @@ class _CustomeAppBarState extends State<CustomeAppBar> {
               onPressed: () {
                 _authProv.signOut().then((result) {
                   if (result == null) {
-                    Navigator.pushReplacementNamed(
-                        context, OnboardingScreen.id);
+                    pushNewScreenWithRouteSettings(
+                      context,
+                      settings: RouteSettings(name: OnboardingScreen.id),
+                      screen: OnboardingScreen(),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    );
                   } else {
                     scaffoldMessage(result);
                   }
